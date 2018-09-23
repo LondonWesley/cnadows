@@ -9,6 +9,8 @@ from bot import main
 import subprocess
 from multiprocessing import Process,Queue,Pipe
 
+#Unused class for now
+
 diamond_count = 3000
 data_diamonds = []
 delete_diamonds = []

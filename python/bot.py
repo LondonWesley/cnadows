@@ -119,6 +119,6 @@ def main():
     CNADOWS.extract_addresses(11)
 
 if __name__ == '__main__':
-    main()
+    print('please run from visual')
 else:
     print("CNADOWS sucessfully imported")
