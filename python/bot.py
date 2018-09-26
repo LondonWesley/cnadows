@@ -12,28 +12,23 @@ import re
 import openpyxl
 #other imports
 import os
-import sys
-
-
-
 
 
 #Certified Nursing Assistant Data Obtaining Web Scraper
 
-#TODO: Broward and  -Miami Dade
-
 class Bot:
 
-    def __init__(self, dir):
-        self.directory = dir
-        self.excelName = 'Broward.xlsx'
+    def __init__(self):
+        os.chdir('..')
+        self.directory = os.getcwd()
+        self.excelName = '\Broward.xlsx'
 
     def get_name_of_CNA(self, soup):
         headers = soup.find_all('h3')
         return headers[0].string.strip()
 
 
-    def extract_addresses(self, num_pages):
+    def extract_addresses(self, countyIndex, num_pages):
 
         cell_number = 2
         wb = openpyxl.load_workbook(self.directory+self.excelName)
@@ -46,7 +41,7 @@ class Bot:
         driver = webdriver.Chrome("chromedriver")
         driver.get('https://appsmqa.doh.state.fl.us/MQASearchServices/HealthCareProviders')
         driver.implicitly_wait(20)
-        driver.set_window_size(300, 300)
+        #driver.set_window_size(300, 300)
 
         #Sets up the initial search parameter
         time.sleep(0.5)
@@ -54,7 +49,7 @@ class Bot:
         profession.select_by_index(18)
         time.sleep(0.5)
         county = Select(driver.find_element_by_id("SearchDto_County"))
-        county.select_by_index(6)
+        county.select_by_index(countyIndex)
         time.sleep(0.5)
         status = Select(driver.find_element_by_id("SearchDto_LicenseStatus"))
         status.select_by_index(1)
@@ -112,13 +107,14 @@ class Bot:
         print("Adresses succesfully extracted")
         driver.quit()
 
-def main():
-    print("running CNADOWS independently")
-    print("CNADOWS test mode")
-    CNADOWS = Bot('C:/Users/Wesley/Desktop/navbot/')
-    CNADOWS.extract_addresses(11)
+
+def startScrape(countyIndex, num_pages):
+
+    CNADOWS = Bot()
+    CNADOWS.extract_addresses(countyIndex, num_pages)
 
 if __name__ == '__main__':
-    print('please run from visual')
+    print("CNADOWS running independently. running test mode")
+    startScrape(6,2)
 else:
-    print("CNADOWS sucessfully imported")
+    print("bot.py sucessfully imported")

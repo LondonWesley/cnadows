@@ -1,5 +1,6 @@
 
 from tkinter import *
+from bot import startScrape
 
 root = Tk()
 root.resizable(width = False, height = False)
@@ -12,9 +13,6 @@ countyLabel.pack()
 
 #all counties in Florida in order corresponding to the site
 counties = ['ALACHUA','BAKER','BAY','BRADFORD','BREVARD','BROWARD','CALHOUN','CHARLOTTE','CITRUS','CLAY','COLLIER','COLUMBIA','DESOTO','DIXIE','DUVAL','ESCAMBIA','FLAGLER','FRANKLIN','GADSDEN','GILCHRIST','GLADES','GULF','HAMILTON','HARDEE','HENDRY','HERNANDO','HIGHLANDS','HILLSBOROUGH','HOLMES','INDIAN RIVER','JACKSON','JEFFERSON','LAFAYETTE','LAKE','LEE','LEON','LEVY','LIBERTY','MADISON','MANATEE','MARION','MARTIN','MIAMI-DADE','MONROE','NASSAU','OKALOOSA','OKEECHOBEE','ORANGE','OSCEOLA','PALM BEACH','PASCO','PINELLAS','POLK','PUTNAM','SANTA ROSA','SARASOTA','SEMINOLE','ST.JOHNS','ST.LUCIE','SUMTER','SUWANNEE','TAYLOR','UNION','VOLUSIA','WAKULLA','WALTON','WASHINGTON']
-#variable that will hold the value of whats selected
-countyChoice = StringVar(root)
-countyChoice.set('--not selected--')
 #option menu that will be in the window
 countyMenu = Listbox(frame)
 countyMenu.pack(side = 'left')
@@ -44,10 +42,14 @@ errorLabel = Label(quotaFrame, font = 12, fg = 'red')
 errorLabel.grid(row=3,column = 0)
 
 def start(startButton):
-    if countyChoice.get() != '--not selected--':
-        countyChoice.set(countyMenu.curselection()[0])
-        print(countyChoice.get())
+
+    if len(countyMenu.curselection())>0:
         startButton.config(state = DISABLED)
+        countySelected = int(countyMenu.curselection()[0]+1)
+        numberOfPages = int(quotaBox.get())
+        print(numberOfPages)
+        startScrape(countySelected,numberOfPages)
+
     else:
         errorLabel.config(text = "Please choose a county to pull from")
 
