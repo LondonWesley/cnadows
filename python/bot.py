@@ -46,7 +46,7 @@ class Bot:
         #Sets up the initial search parameter
         time.sleep(0.5)
         profession = Select(driver.find_element_by_id('ProfessionDD'))
-        profession.select_by_index(18)
+        profession.select_by_index(19)
         time.sleep(0.5)
         county = Select(driver.find_element_by_id("SearchDto_County"))
         county.select_by_index(countyIndex)
